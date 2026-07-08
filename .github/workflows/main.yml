@@ -1,0 +1,18 @@
+name: GitHub Actions Demo
+
+# Trigger the workflow on every push to the repository
+on: [push]
+
+jobs:
+  explore-actions:
+    # Run on a hosted Ubuntu Linux virtual machine
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Say Hello
+        run: echo "Hello World! Your first GitHub Action works perfectly."
+
+      - name: Show System Info
+        run: |
+          echo "Running on server: $RUNNER_OS"
+          echo "Triggered by branch: $GITHUB_REF"
