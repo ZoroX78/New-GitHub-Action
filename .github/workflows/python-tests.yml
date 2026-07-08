@@ -1,0 +1,35 @@
+name: Python Testing Pipeline
+
+on: [push, pull_request]
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Download repository code onto the runner machine
+    - name: Checkout repository code
+      uses: actions/checkout@v4
+
+    # 2. Install and configure Python on the runner environment
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    # 3. Download the tools needed for testing and linting
+    - name: Install testing dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest flake8
+
+    # 4. Scan code syntax errors and formatting
+    - name: Lint code style with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+    # 5. Run the automation tests
+    - name: Run automated test suite
+      run: |
+        pytest test_main.py
